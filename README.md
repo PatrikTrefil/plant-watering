@@ -7,5 +7,5 @@ are described in a separate file.
 ## Goals
 
 1. Water the plants
-2. Have status of the plants available online
+2. Have status of the plants available online ([log](https://github.com/PatrikTrefil/plant-watering-log))
 3. Ability to get status via ssh
