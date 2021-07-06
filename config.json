@@ -1,0 +1,4 @@
+{
+	"status_file": "~/.local/plant_watering_status.txt",
+	"log_repo": "/mnt/c/Users/patri/Code/plant_watering_log/"
+}
