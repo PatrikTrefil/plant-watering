@@ -14,7 +14,7 @@ for new commits to the repo.
 
 There is a status file in `~/.local/plant_watering_status.txt`
 which can be read using `cat`. If you don't want to open an interactive
-shell, use this command: `ssh plants "cat ~/.local/plant_watering_status.txt"`
+shell, use this command: `ssh raspberry "cat ~/.local/plant_watering_status.txt"`
 for plants alias.
 
 ## Plant watering system

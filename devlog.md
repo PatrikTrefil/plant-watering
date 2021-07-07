@@ -7,6 +7,11 @@
 - make circuit diagrams
 - actually make the circuits
 
+## 2021-07-07
+
+- made list of hardware to buy
+- reinstalled Rasberry OS and setup ssh
+
 ## 2021-07-06
 
 - setup repos for code and log
