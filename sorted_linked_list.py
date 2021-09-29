@@ -26,6 +26,9 @@ class SortedLinkedList:
         prev_node.next = new_node
         new_node.next = curr_node
 
+    def add_item(self, item):
+      self.add_node(Node(item))
+
   def remove_start_node(self):
     if self.start_node is not None:
       self.start_node = self.start_node.next
