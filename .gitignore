@@ -1,5 +1,6 @@
 public/
 resources/
+__pycache__/
 ### macOS ###
 # General
 .DS_Store
