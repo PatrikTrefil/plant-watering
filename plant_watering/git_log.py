@@ -3,7 +3,6 @@
 
 import subprocess
 from config import get_config
-import led
 from git import Repo
 import tempfile
 import os

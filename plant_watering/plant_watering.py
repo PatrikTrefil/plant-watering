@@ -1,4 +1,5 @@
 #!/bin/env python3
+"""plant watering system"""
 
 from scheduler import Scheduler
 import RPi.GPIO as GPIO

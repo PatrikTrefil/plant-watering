@@ -1,4 +1,5 @@
 #!/bin/env python3
+"""Provides access to program configuration"""
 
 import json
 

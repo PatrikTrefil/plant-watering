@@ -1,4 +1,5 @@
 #!/bin/env python3
+"""Module for controlling water pumps"""
 
 import RPi.GPIO as GPIO
 import time

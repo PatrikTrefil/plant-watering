@@ -1,4 +1,5 @@
 #!/bin/env python3
+"""implements event class"""
 
 import datetime
 

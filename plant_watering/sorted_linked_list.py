@@ -1,4 +1,5 @@
 #!/bin/env python3
+"""Simple implementation of sorted linked list"""
 
 class Node:
   def __init__(self, value, next=None):

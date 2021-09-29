@@ -1,4 +1,5 @@
 #!/bin/env python3
+"""implements Plant class for watering systems"""
 
 from events import Event
 import datetime
