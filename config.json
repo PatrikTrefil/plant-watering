@@ -1,4 +1,6 @@
 {
-	"status_file": "~/.local/plant_watering_status.txt",
-	"log_repo": "/mnt/c/Users/patri/Code/plant_watering_log/"
+	"log_repo_url": "https://github.com/PatrikTrefil/plant-watering-log",
+  "plants_folder": "./plants/",
+  "error_log": "~/.local/plant_watering_log.txt",
+  "time_of_watering": 10
 }
