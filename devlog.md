@@ -7,6 +7,14 @@
 - make circuit diagrams
 - actually make the circuits
 
+## 2021-09-29
+
+(last 3 days)
+
+- implemented scheduling system
+- researched SPI protocol, ADC converters
+- implemented git_log
+
 ## 2021-07-07
 
 - made list of hardware to buy
