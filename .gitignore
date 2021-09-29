@@ -1,6 +1,7 @@
 public/
 resources/
 __pycache__/
+Pipfile.lock
 ### macOS ###
 # General
 .DS_Store
