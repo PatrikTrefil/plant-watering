@@ -1,19 +1,18 @@
 #!/bin/env python3
 """Module for controlling water pumps"""
 
-import RPi.GPIO as GPIO
 import time
+import RPi.GPIO as GPIO
 
 class Pump:
-  def __init__(self, pinNumber):
+  def __init__(self, pin_number):
     """pinNumber in GPIO.BOARD"""
-    self.pinNumber = pinNumber
-    GPIO.setup(self.pinNumber, GPIO.OUT)
+    self.pin_number = pin_number
+    GPIO.setup(self.pin_number, GPIO.OUT)
 
-  def pump(self, time):
+  def pump(self, on_time):
     """time in seconds"""
+    GPIO.output(self.pin_number, GPIO.HIGH)
+    time.sleep(on_time)
+    GPIO.output(self.pin_number, GPIO.LOW)
     raise Exception("Not implemented")
-    GPIO.output(self.pinNumber, GPIO.HIGH)
-    time.sleep(time)
-    GPIO.output(self.pinNumber, GPIO.LOW)
-

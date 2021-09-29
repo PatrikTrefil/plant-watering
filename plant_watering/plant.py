@@ -1,23 +1,25 @@
 #!/bin/env python3
 """implements Plant class for watering systems"""
 
-from events import Event
-import datetime
-import git_log
 import os
-import pump
+import datetime
+import json
+import git_log
+from pump import Pump
 
 class Plant:
   @staticmethod
   def init_plants(plants_folder):
     """create plant objects based on configuration files from plants_folder"""
     plant_files_paths = os.listdir(plants_folder)
-    plantConfigs = []
+    plant_configs = []
     for plant_file_path in plant_files_paths:
       with open(plant_file_path, "r") as plant_file:
-        plantConfigs += [json.load(plant_file)]
+        plant_configs += [json.load(plant_file)]
 
-    plants = [Plant(plantConfig.name, pump.Pump(plantConfig.pumpPin, plantConfig.minHumidity)) for plantConfig in plantConfigs]
+    plants = [ \
+      Plant(plantConfig.name, Pump(plantConfig.pumpPin), plantConfig.minHumidity) \
+      for plantConfig in plant_configs]
     return plants
 
   def __init__(self, name, pump, min_humidity):
@@ -25,6 +27,8 @@ class Plant:
     self.pump = pump
     self.min_humidity = min_humidity
     self.interval = datetime.timedelta(days=1)
+    self.last_res = None
+    self.last_measure_datetime = None
 
   def measure(self):
     res = -1
@@ -37,7 +41,7 @@ class Plant:
     return res
 
   def water(self):
-    pump.pump(2)
+    self.pump.pump(2)
 
   def care(self, scheduler):
     """This method takes care of everything the plant needs, i.e.:
@@ -50,6 +54,7 @@ class Plant:
     if res <= self.min_humidity:
       self.water()
     # plan
+    curr_datetime = datetime.datetime.now()
     self.plan(
       scheduler,
       curr_datetime + interval,

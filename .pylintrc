@@ -1,0 +1,10 @@
+[MASTER]
+indent-string="  "
+disable=
+    C0114, # missing-module-docstring
+    C0115, # missing-class-docsctring
+    C0116, # missing-method-docsctring
+    W0703, # broad-except
+    R0903, # too-few-public-methods
+    E0401,
+    C0103, # invalid-name - does not allow local constant in macro case...

@@ -1,12 +1,12 @@
 #!/bin/env python3
 """module for working with a log git repository"""
 
-import subprocess
-from config import get_config
-from git import Repo
-import tempfile
 import os
 import datetime
+import tempfile
+from config import get_config
+from git import Repo
+import error
 
 
 def log_to_repo(text:str):
@@ -23,5 +23,6 @@ def log_to_repo(text:str):
       repo.git.commit("-m", "automatic update")
       remote = repo.remote("origin")
       remote.push()
-  except Exception as e:
-    led.flash(10)
+  except Exception as excep:
+    error.ErrorLog.log_error(excep)
+    error.ErrorLog.signal_error()
