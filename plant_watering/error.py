@@ -5,7 +5,7 @@ from config import get_config
 from led import Led
 
 class ErrorLog:
-  led = Led()
+  led = Led(20)
 
   @staticmethod
   def log_error(text):
