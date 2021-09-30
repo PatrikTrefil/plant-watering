@@ -6,4 +6,6 @@ class Relay:
     GPIO.setup(pin_num, GPIO.OUT, initial=GPIO.LOW) # default to 0 V
 
   def switch(self, on):
-    GPIO.output(self.pin_num, GPIO.LOW if on is True else GPIO.HIGH)
+    GPIO.output(
+      self.pin_num,
+      GPIO.LOW if on is True else GPIO.HIGH)
