@@ -3,16 +3,15 @@
 
 import time
 import RPi.GPIO as GPIO
+from relay import Relay
 
 class Pump:
   def __init__(self, pin_number):
     """pinNumber in GPIO.BOARD"""
-    self.pin_number = pin_number
-    GPIO.setup(self.pin_number, GPIO.OUT)
+    self.relay = Relay(pin_number)
 
   def pump(self, on_time):
     """time in seconds"""
-    GPIO.output(self.pin_number, GPIO.HIGH)
+    relay.switch(True)
     time.sleep(on_time)
-    GPIO.output(self.pin_number, GPIO.LOW)
-    raise Exception("Not implemented")
+    relay.switch(False)
