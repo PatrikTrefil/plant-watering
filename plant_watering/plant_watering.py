@@ -25,7 +25,7 @@ def main():
   plant_list = plant.Plant.init_plants(config["plants_folder"])
   # schedule for next 10:00 AM
   todays_watering_time = \
-    datetime.datetime.today() + datetime.timedelta(hours=config.time_of_watering)
+    datetime.datetime.today() + datetime.timedelta(hours=config["time_of_watering"])
 
   if datetime.datetime.now() > todays_watering_time:
     planned_time = \
