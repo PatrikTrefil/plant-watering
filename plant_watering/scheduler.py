@@ -31,5 +31,7 @@ class Scheduler:
 
   def resolve_event(self):
     curr_event = self.remove_next_event()
+    print(f"Resolving event: {curr_event}")
+    for event_listener in type(curr_event).event_listeners:
+      event_listener(curr_event.sender)
     print(f"Event resolved: {curr_event}")
-    curr_event.routine()

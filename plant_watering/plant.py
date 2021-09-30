@@ -18,17 +18,18 @@ class Plant:
         plant_configs += [json.load(plant_file)]
 
     plants = [ \
-      Plant(plantConfig.name, Pump(plantConfig.pumpPin), plantConfig.minHumidity) \
+      Plant(plantConfig.name, Pump(plantConfig.pumpPin), plantConfig.minHumidity, plantConfig.time_plan) \
       for plantConfig in plant_configs]
     return plants
 
-  def __init__(self, name, pump, min_humidity):
+  def __init__(self, name, pump, min_humidity, time_plan):
     self.name = name
     self.pump = pump
     self.min_humidity = min_humidity
     self.interval = datetime.timedelta(days=1)
     self.last_res = None
     self.last_measure_datetime = None
+    self.time_plan = time_plan
 
   def measure(self):
     res = -1
@@ -41,22 +42,5 @@ class Plant:
     return res
 
   def water(self):
+    print(f"Watering plant {self.name}")
     self.pump.pump(2)
-
-  def care(self, scheduler):
-    """This method takes care of everything the plant needs, i.e.:
-      measure (log result) soil humidity,
-      water if needed
-      plan next care"""
-    # measure
-    res = self.measure()
-    # watering
-    if res <= self.min_humidity:
-      self.water()
-    # plan
-    curr_datetime = datetime.datetime.now()
-    self.plan(
-      scheduler,
-      curr_datetime + interval,
-      self.measure_and_plan
-    )
