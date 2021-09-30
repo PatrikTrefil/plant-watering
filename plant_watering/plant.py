@@ -11,14 +11,15 @@ class Plant:
   @staticmethod
   def init_plants(plants_folder):
     """create plant objects based on configuration files from plants_folder"""
-    plant_files_paths = os.listdir(plants_folder)
+    plant_files_paths = [os.path.join(plants_folder, file_name) for file_name in os.listdir(plants_folder)]
     plant_configs = []
     for plant_file_path in plant_files_paths:
       with open(plant_file_path, "r") as plant_file:
         plant_configs += [json.load(plant_file)]
 
+    print(f"Loaded plant configs:\n{plant_configs}")
     plants = [ \
-      Plant(plantConfig.name, Pump(plantConfig.pumpPin), plantConfig.minHumidity, plantConfig.time_plan) \
+      Plant(plantConfig["name"], Pump(plantConfig["pumpPin"]), plantConfig["minHumidity"], plantConfig["timePlan"]) \
       for plantConfig in plant_configs]
     return plants
 
