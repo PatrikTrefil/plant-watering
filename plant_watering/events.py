@@ -21,7 +21,7 @@ class Event:
 
   @staticmethod
   def add_event_listener(event_class, func):
-    if Event.__event_listeners__[event_class] is None:
+    if event_class not in Event.__event_listeners__:
       Event.__event_listeners__[event_class] = set()
     Event.__event_listeners__[event_class].add(func)
 
