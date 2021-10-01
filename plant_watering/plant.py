@@ -32,6 +32,9 @@ class Plant:
     self.last_measure_datetime = None
     self.time_plan = [datetime.datetime.strptime(time_unit, "%H:%M").time() for time_unit in time_plan]
 
+  def __str__(self):
+    return f"plant {self.name}"
+
   def measure(self):
     res = -1
     raise Exception("Not implemented")
