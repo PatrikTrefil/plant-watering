@@ -15,7 +15,7 @@ class Event:
     return curr_datetime >= self.due_datetime
 
   def __str__(self):
-    return f"{self.due_datetime} + {self.sender}"
+    return f"{type(self)} sent by {self.sender}"
 
   __event_listeners__ = dict() # expects functions that have one parameter sender
 
