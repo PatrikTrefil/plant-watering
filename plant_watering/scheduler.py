@@ -15,7 +15,7 @@ class Scheduler:
     self.event_calendar.add_item(event)
 
   def log(self, descr, event):
-    print("|{:<16}|{:<24}|{:<14}|{:<14}|".format(
+    print("|{:<16}|{:<44}|{:<14}|{:<14}|".format(
       descr,
       str(event),
       event.due_datetime.strftime("%y-%m-%d %H:%M"),
