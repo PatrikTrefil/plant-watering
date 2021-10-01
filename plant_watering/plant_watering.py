@@ -47,9 +47,9 @@ def main():
         if measurement_time >= curr_datetime:
             scheduler.add_event(events.Measurement(measurement_time, plant_item))
 
-  events.ScheduleDay.add_event_listener(schedule_day)
+  events.ScheduleDay.add_event_listener(events.ScheduleDay, schedule_day)
   # schedule every night at 00:00
-  events.ScheduleDay.add_event_listener(lambda sender:
+  events.ScheduleDay.add_event_listener(events.ScheduleDay, lambda sender:
     scheduler.add_event(events.ScheduleDay(datetime.datetime.today() + datetime.timedelta(days=1)))
   )
   scheduler.add_event(events.ScheduleDay(datetime.datetime.now(), None))
