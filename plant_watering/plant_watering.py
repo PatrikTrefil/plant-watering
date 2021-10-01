@@ -43,7 +43,7 @@ def main():
     for plant_item in plant_list:
       # don't schedule for the past
       curr_datetime = datetime.datetime.now()
-      for measurement_time in config.time_plan:
+      for measurement_time in plant_item.time_plan:
         if measurement_time >= curr_datetime:
             scheduler.add_event(events.Measurement(measurement_time, None))
 
