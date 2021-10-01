@@ -7,6 +7,12 @@
 - make circuit diagrams
 - actually make the circuits
 
+## 2021-10-01
+
+- reworked event system (not yet tested)
+- added comments, improved structure (based on Pylint)
+- added pipenv scripts
+
 ## 2021-09-29
 
 (last 3 days)
