@@ -42,5 +42,3 @@ class Scheduler:
     for event_listener in events.Event.get_event_listener(type(curr_event)):
       event_listener(curr_event.sender)
     self.log("event resolved", curr_event)
-s = Scheduler()
-s.log("ahoj", events.Event(datetime.datetime.now(), None))
