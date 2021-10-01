@@ -15,7 +15,11 @@ class Scheduler:
     self.event_calendar.add_item(event)
 
   def log(self, descr, event):
-    print("|{:<10}|{:<10}|{:<10}|{:<10}|".format(descr, event, event.due_datetime, datetime.datetime.now()))
+    print("|{:<10}|{:<10}|{:<10}|{:<10}|".format(
+      descr,
+      str(event),
+      event.due_datetime.strftime("%y-%m-%d %H:%M"),
+      datetime.datetime.now().strftime("%y-%m-%d %H:%M")))
 
   def remove_next_event(self):
     removed_event = self.get_next_event()
