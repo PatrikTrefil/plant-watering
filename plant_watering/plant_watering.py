@@ -23,6 +23,7 @@ def main():
   config = get_config()
   scheduler = Scheduler()
   plant_list = plant.Plant.init_plants(config["plants_folder"])
+<<<<<<< HEAD
   # setup events
   def measure(sender):
     sender.measure()
@@ -50,6 +51,20 @@ def main():
     scheduler.add_event(events.ScheduleDay(datetime.datetime.today() + datetime.timedelta(days=1)))
   )
   scheduler.add_event(events.ScheduleDay(datetime.datetime.now()))
+=======
+  # schedule for next 10:00 AM
+  todays_watering_time = \
+    datetime.datetime.today() + datetime.timedelta(hours=config["time_of_watering"])
+
+  if datetime.datetime.now() > todays_watering_time:
+    planned_time = \
+      datetime.datetime.today() + datetime.timedelta(days=1, hours=config.time_of_watering)
+  else:
+    planned_time = todays_watering_time
+
+  for plant_item in plant_list:
+    scheduler.add_event(Event(planned_time, plant_item.care))
+>>>>>>> main
 
   # main loop
   while True:
