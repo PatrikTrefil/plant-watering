@@ -38,8 +38,12 @@ def main():
   # day scheduling
   def schedule_day(sender):
     for plant_item in plant_list:
+      # don't schedule for the past
+      curr_datetime = datetime.datetime.now()
       for measurement_time in config.time_plan:
-        scheduler.add_event(events.Measurement(measurement_time, None))
+        if measurement_time >= curr_datetime:
+            scheduler.add_event(events.Measurement(measurement_time, None))
+
   events.ScheduleDay.add_event_listener(schedule_day)
   # schedule every night at 00:00
   events.ScheduleDay.add_event_listener(lambda sender:
