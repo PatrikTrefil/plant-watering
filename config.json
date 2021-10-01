@@ -1,5 +1,8 @@
 {
 	"log_repo_url": "https://github.com/PatrikTrefil/plant-watering-log",
   "plants_folder": "./plants/",
-  "time_of_watering": 10
+  "time_of_watering": 10,
+  "pins": {
+    "led": 20
+  }
 }
