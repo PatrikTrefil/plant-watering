@@ -7,8 +7,9 @@ class Node:
     self.next_item = next_item
 
 class SortedLinkedList:
-  def __init__(self, start_node=None):
+  def __init__(self, start_node=None, compareFunc=lambda x, y: x < y):
     self.start_node = start_node
+    self.compare = compareFunc
 
   def add_node(self, new_node):
     if self.start_node is None:
@@ -16,7 +17,7 @@ class SortedLinkedList:
     else:
       prev_node = None
       curr_node = self.start_node
-      while new_node.value > curr_node.value:
+      while not compareFunc(new_node.value, curr_node.value):
         prev_node = curr_node
         curr_node = curr_node.next_item
       # add new node between prev and curr

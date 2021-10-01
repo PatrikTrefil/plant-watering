@@ -8,7 +8,7 @@ import events
 class Scheduler:
   """Simple scheduler. No guarantee of execution in time."""
   def __init__(self):
-    self.event_calendar = SortedLinkedList(None)
+    self.event_calendar = SortedLinkedList(None, lambda x, y: x.due_datetime < y.due_datetime)
 
   def add_event(self, event):
     self.log("event added", event)
