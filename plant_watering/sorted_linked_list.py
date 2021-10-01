@@ -1,12 +1,12 @@
 #!/bin/env python3
 """Simple implementation of sorted linked list"""
 
-class Node:
-  def __init__(self, value, next_item=None):
-    self.value = value
-    self.next_item = next_item
-
 class SortedLinkedList:
+  class Node:
+    def __init__(self, value, next_item=None):
+      self.value = value
+      self.next_item = next_item
+
   def __init__(self, start_node=None):
     self.start_node = start_node
 
