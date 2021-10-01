@@ -11,7 +11,7 @@ class Scheduler:
     self.event_calendar = SortedLinkedList(None)
 
   def add_event(self, event):
-    log("event added", event)
+    self.log("event added", event)
     self.event_calendar.add_item(event)
 
   def log(self, descr, event):
@@ -34,7 +34,7 @@ class Scheduler:
 
   def resolve_event(self):
     curr_event = self.remove_next_event()
-    log("resolving event", curr_event)
+    self.log("resolving event", curr_event)
     for event_listener in events.Event.get_event_listener(type(curr_event)):
       event_listener(curr_event.sender)
-    log("event resolved", curr_event)
+    self.log("event resolved", curr_event)
