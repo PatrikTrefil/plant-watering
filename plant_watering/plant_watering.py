@@ -50,7 +50,7 @@ def main():
   events.ScheduleDay.add_event_listener(events.ScheduleDay, schedule_day)
   # schedule every night at 00:00
   events.ScheduleDay.add_event_listener(events.ScheduleDay, lambda sender:
-    scheduler.add_event(events.ScheduleDay(datetime.datetime.today() + datetime.timedelta(days=1)))
+    scheduler.add_event(events.ScheduleDay(datetime.datetime.today() + datetime.timedelta(days=1), scheduler))
   )
   scheduler.add_event(events.ScheduleDay(datetime.datetime.now(), None))
 
