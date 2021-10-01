@@ -10,7 +10,7 @@ class Scheduler:
     self.event_calendar = SortedLinkedList(None)
 
   def add_event(self, event):
-    print(f"Event added: {event}")
+    print(f"Event added: {type(event)}: {event}")
     self.event_calendar.add_item(event)
 
   def remove_next_event(self):
@@ -30,7 +30,7 @@ class Scheduler:
 
   def resolve_event(self):
     curr_event = self.remove_next_event()
-    print(f"Resolving event: {curr_event}")
+    print(f"Resolving event: {type(curr_event)}: {curr_event}")
     for event_listener in type(curr_event).event_listeners:
       event_listener(curr_event.sender)
     print(f"Event resolved: {curr_event}")
