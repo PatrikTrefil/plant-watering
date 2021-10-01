@@ -45,15 +45,17 @@ def main():
       curr_datetime = datetime.datetime.now()
       for measurement_time in plant_item.time_plan:
         if measurement_time >= curr_datetime.time():
-            desired_datetime = \
-              datetime.datetime.today() + \
-              datetime.timedelta(hours=measurement_time.hour, minutes=measurement_time.minute)
+            desired_datetime = datetime.datetime.combine(
+              datetime.date.today(),
+              datetime.time(hour=measurement_time.hours, minute=measurement_time.minute))
             scheduler.add_event(events.Measurement(desired_datetime, plant_item))
 
   events.ScheduleDay.add_event_listener(events.ScheduleDay, schedule_day)
   # schedule every night at 00:00
   events.ScheduleDay.add_event_listener(events.ScheduleDay, lambda sender:
-    scheduler.add_event(events.ScheduleDay(datetime.datetime.today() + datetime.timedelta(days=1), scheduler))
+    scheduler.add_event(events.ScheduleDay(
+      datetime.datetime.combine(datetime.date.today(),
+      datetime.time(hour=0, minute=0) + datetime.timedelta(days=1), scheduler))
   )
   scheduler.add_event(events.ScheduleDay(datetime.datetime.now(), None))
 

@@ -14,7 +14,7 @@ def log_to_repo(text:str):
     with tempfile.TemporaryDirectory() as tmpdir:
       config = get_config()
       repo = Repo.clone_from(config["log_repo_url"], tmpdir)
-      curr_datetime = datetime.datetime.today()
+      curr_datetime = datetime.datetime.now()
       new_file_name = f"{curr_datetime.date()}--{curr_datetime.hour}-{curr_datetime.minute}.txt"
       new_file_path = os.path.join(tmpdir, new_file_name)
       with open(new_file_path, "w") as new_file:
