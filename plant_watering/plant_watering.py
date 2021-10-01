@@ -28,16 +28,16 @@ def main():
   def measure(sender):
     sender.measure()
     scheduler.add_event(events.MeasurementDone(datetime.datetime.now(), sender))
-  events.Measurement.add_event_listener(measure)
+  events.Measurement.event_listeners.add(measure)
   def water_if_needed(sender):
     if sender.last_res < sender.min_humidity:
       scheduler.add_event(events.LackOfWater(datetime.datetime.now(), sender))
-  events.MeasurementDone.add_event_listener(water_if_needed)
-  events.MeasurementDone.add_event_listener(lambda sender: git_log.log_to_repo(sender.last_res))
+  events.MeasurementDone.event_listeners.add(water_if_needed)
+  events.MeasurementDone.event_listeners.add(lambda sender: git_log.log_to_repo(sender.last_res))
 
   # water when needed
-  events.LackOfWater.add_event_listener(lambda sender: sender.water())
-  events.LackOfWater.add_event_listener(lambda sender: git_log.log_to_repo(f"Watered {sender.name} at {datetime.datetime.now()}"))
+  events.LackOfWater.event_listeners.add(lambda sender: sender.water())
+  events.LackOfWater.event_listeners.add(lambda sender: git_log.log_to_repo(f"Watered {sender.name} at {datetime.datetime.now()}"))
   # day scheduling
   def schedule_day(sender):
     for plant_item in plant_list:
@@ -47,9 +47,9 @@ def main():
         if measurement_time >= curr_datetime:
             scheduler.add_event(events.Measurement(measurement_time, None))
 
-  events.ScheduleDay.add_event_listener(schedule_day)
+  events.ScheduleDay.event_listeners.add(schedule_day)
   # schedule every night at 00:00
-  events.ScheduleDay.add_event_listener(lambda sender:
+  events.ScheduleDay.event_listeners.add(lambda sender:
     scheduler.add_event(events.ScheduleDay(datetime.datetime.today() + datetime.timedelta(days=1)))
   )
   scheduler.add_event(events.ScheduleDay(datetime.datetime.now()))
