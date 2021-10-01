@@ -11,6 +11,6 @@ class Pump:
 
   def pump(self, on_time):
     """time in seconds"""
-    relay.switch(True)
+    self.relay.switch(True)
     time.sleep(on_time)
-    relay.switch(False)
+    self.relay.switch(False)
