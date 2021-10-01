@@ -10,7 +10,7 @@ class SortedLinkedList:
   def __init__(self, start_node=None):
     self.start_node = start_node
 
-  def add_node(self, new_node):
+  def __add_node__(self, new_node):
     if self.start_node is None:
       self.start_node = new_node
     else:
@@ -28,7 +28,7 @@ class SortedLinkedList:
         new_node.next = curr_node
 
   def add_item(self, item):
-    self.add_node(Node(item))
+    self.__add_node__(Node(item))
 
   def remove_start_node(self):
     if self.start_node is not None:
