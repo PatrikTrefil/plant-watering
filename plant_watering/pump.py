@@ -2,7 +2,6 @@
 """Module for controlling water pumps"""
 
 import time
-import RPi.GPIO as GPIO
 from relay import Relay
 
 class Pump:
