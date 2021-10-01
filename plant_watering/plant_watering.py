@@ -44,7 +44,7 @@ def main():
       # don't schedule for the past
       curr_datetime = datetime.datetime.now()
       for measurement_time in plant_item.time_plan:
-        if measurement_time >= curr_datetime:
+        if measurement_time >= curr_datetime.time():
             scheduler.add_event(events.Measurement(measurement_time, plant_item))
 
   events.ScheduleDay.add_event_listener(events.ScheduleDay, schedule_day)
