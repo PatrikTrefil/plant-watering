@@ -17,7 +17,17 @@ class Event:
   def __str__(self):
     return f"{self.due_datetime} + {self.sender}"
 
-  event_listeners = set() # expects functions that have one parameter sender
+  __event_listeners__ = dict() # expects functions that have one parameter sender
+
+  @staticmethod
+  def add_event_listener(event_class, func):
+    if Event.__event_listeners__[event_class] is None:
+      Event.__event_listeners__[event_class] = set()
+    Event.__event_listeners__[event_class].add(func)
+
+  @staticmethod
+  def get_event_listener(event_class):
+    return Event.__event_listeners__[event_class]
 
 # scheduler plans these on daily basis according to configuration
 class Measurement(Event):

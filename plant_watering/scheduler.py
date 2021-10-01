@@ -3,6 +3,7 @@
 
 import datetime
 from sorted_linked_list import SortedLinkedList
+import events
 
 class Scheduler:
   """Simple scheduler. No guarantee of execution in time."""
@@ -31,6 +32,6 @@ class Scheduler:
   def resolve_event(self):
     curr_event = self.remove_next_event()
     print(f"Resolving event: {type(curr_event)}: {curr_event}")
-    for event_listener in type(curr_event).event_listeners:
+    for event_listener in events.Event.get_event_listener(type(curr_event)):
       event_listener(curr_event.sender)
     print(f"Event resolved: {curr_event}")
