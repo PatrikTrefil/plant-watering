@@ -56,7 +56,7 @@ def main():
     datetime.date.today(), \
     datetime.time(hour=0, minute=0)) + datetime.timedelta(days=1)
   events.ScheduleDay.add_event_listener(events.ScheduleDay, lambda sender:
-    scheduler.add_event(events.ScheduleDay(next_day_midnight, scheduler)
+    scheduler.add_event(events.ScheduleDay(next_day_midnight, scheduler))
   )
   scheduler.add_event(events.ScheduleDay(datetime.datetime.now(), None))
 
