@@ -4,7 +4,10 @@
 import datetime
 
 class Event:
-  """Class for events that trigger exactly one routine. Multiple event handlers not supported."""
+  """
+  Class for events that trigger exactly one routine.
+  Multiple event handlers not supported.
+  """
   def __init__(self, due_datetime, sender):
     self.due_datetime = due_datetime
     self.sender = sender

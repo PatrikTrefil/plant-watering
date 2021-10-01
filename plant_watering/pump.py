@@ -2,7 +2,6 @@
 """Module for controlling water pumps"""
 
 import time
-import RPi.GPIO as GPIO
 from relay import Relay
 
 class Pump:
@@ -12,6 +11,6 @@ class Pump:
 
   def pump(self, on_time):
     """time in seconds"""
-    relay.switch(True)
+    self.relay.switch(True)
     time.sleep(on_time)
-    relay.switch(False)
+    self.relay.switch(False)

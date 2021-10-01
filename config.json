@@ -1,5 +1,7 @@
 {
   "log_repo_url": "https://github.com/PatrikTrefil/plant-watering-log",
   "plants_folder": "./plants/",
-  "error_log": "~/.local/plant_watering_log.txt"
+  "pins": {
+    "led": 20
+  }
 }

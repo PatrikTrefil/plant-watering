@@ -3,6 +3,10 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 name = "pypi"
 
+[scripts]
+start = "python3 ./plant_watering/plant_watering.py"
+lint = "pylint plant_watering"
+
 [packages]
 gitpython = "*"
 "rpi.gpio" = "*"
