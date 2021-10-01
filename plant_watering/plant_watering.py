@@ -45,7 +45,7 @@ def main():
       curr_datetime = datetime.datetime.now()
       for measurement_time in plant_item.time_plan:
         if measurement_time >= curr_datetime:
-            scheduler.add_event(events.Measurement(measurement_time, None))
+            scheduler.add_event(events.Measurement(measurement_time, plant_item))
 
   events.ScheduleDay.event_listeners.add(schedule_day)
   # schedule every night at 00:00
