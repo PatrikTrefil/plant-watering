@@ -52,7 +52,7 @@ def main():
   events.ScheduleDay.event_listeners.add(lambda sender:
     scheduler.add_event(events.ScheduleDay(datetime.datetime.today() + datetime.timedelta(days=1)))
   )
-  scheduler.add_event(events.ScheduleDay(datetime.datetime.now()))
+  scheduler.add_event(events.ScheduleDay(datetime.datetime.now(), None))
 
   # main loop
   while True:
