@@ -45,9 +45,9 @@ def main():
       curr_datetime = datetime.datetime.now()
       for measurement_time in plant_item.time_plan:
         if measurement_time >= curr_datetime.time():
-            desired_datetime = datetime.datetime.today()
-            desired_datetime.hour = measurement_time.hour
-            desired_datetime.minute = mesurement_time.minute
+            desired_datetime = \
+              datetime.datetime.today() + \
+              datetime.timedelta(hour=measurement_time.hour, minute=measurement_time.minute)
             scheduler.add_event(events.Measurement(desired_datetime, plant_item))
 
   events.ScheduleDay.add_event_listener(events.ScheduleDay, schedule_day)
