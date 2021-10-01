@@ -30,7 +30,7 @@ class Plant:
     self.interval = datetime.timedelta(days=1)
     self.last_res = None
     self.last_measure_datetime = None
-    self.time_plan = time_plan
+    self.time_plan = [datetime.datetime.strptime(time_unit, "%H:%M") for time_unit in time_plan]
 
   def measure(self):
     res = -1
