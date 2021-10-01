@@ -10,7 +10,6 @@ class Scheduler:
     self.event_calendar = SortedLinkedList(None)
 
   def add_event(self, event):
-    assert event.due_datetime >= datetime.datetime.now()
     print(f"Event added: {event}")
     self.event_calendar.add_item(event)
 
