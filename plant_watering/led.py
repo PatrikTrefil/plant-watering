@@ -2,13 +2,17 @@
 """Module for controlling LED"""
 
 import sleep
+import RPi.GPIO as GPIO
 
 class Led:
   def __init__(self, pin_num):
     self.pin_num = pin_num
 
   def turn_on_off(self, is_on):
-    raise Exception("Not Implemented")
+    GPIO.output(
+      self.pin_num,
+      GPIO.HIGH if is_on is True else GPIO.LOW
+    )
 
   def flash(self, count, interval=2):
     """flash $count number of times with $interval second intervals"""
