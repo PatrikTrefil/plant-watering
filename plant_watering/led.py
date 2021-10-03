@@ -1,7 +1,7 @@
 #!/bin/env python3
 """Module for controlling LED"""
 
-import sleep
+import time
 import RPi.GPIO as GPIO
 
 class Led:
