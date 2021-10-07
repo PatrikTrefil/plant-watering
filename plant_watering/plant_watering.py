@@ -5,6 +5,7 @@ import datetime
 import signal
 import time
 import logging
+import sys
 from scheduler import Scheduler
 import RPi.GPIO as GPIO
 import plant
@@ -19,12 +20,7 @@ def main():
   signal.signal(signal.SIGINT, lambda _ : GPIO.cleanup() )
   # init
   GPIO.setmode(GPIO.BOARD)
-  # logging
-  r = logging.getLogger("root")
-  r.setLevel(logging.DEBUG)
-  r.addHandler(logging.StreamHandler())
-  journald_handler = JournaldLogHandler()
-  logger.addHandler(journald_handler)
+
 
   config = get_config()
   scheduler = Scheduler()
@@ -76,7 +72,14 @@ def main():
 
 
 if __name__=="__main__":
+  # logging
+  r = logging.getLogger("root")
+  r.setLevel(logging.DEBUG)
+  r.addHandler(logging.StreamHandler())
+  journald_handler = JournaldLogHandler()
+  r.addHandler(journald_handler)
   try:
     main()
-  except Exception:
+  except Exception as e:
+    logging.exception("App crashed")
     GPIO.cleanup()
