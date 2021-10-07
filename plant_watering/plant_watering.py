@@ -11,10 +11,6 @@ import events
 import git_log
 from config import get_config
 
-
-def test_routine():
-  print("provedeno")
-
 def main():
   # cleanup
   signal.signal(signal.SIGTERM, lambda _ : GPIO.cleanup() )
@@ -28,7 +24,8 @@ def main():
   def measure(sender):
     sender.measure()
     scheduler.add_event(events.MeasurementDone(datetime.datetime.now(), sender))
-  events.Measurement.add_event_listener(events.Measurement, measure)
+  # HACK: don't have hardware for measuring
+  # events.Measurement.add_event_listener(events.Measurement, measure)
   def water_if_needed(sender):
     if sender.last_res < sender.min_humidity:
       scheduler.add_event(events.LackOfWater(datetime.datetime.now(), sender))
@@ -37,7 +34,7 @@ def main():
 
   # water when needed
   events.LackOfWater.add_event_listener(events.LackOfWater, lambda sender: sender.water())
-  events.LackOfWater.add_event_listener(events.LackOfWater, lambda sender: git_log.log_to_repo(f"Watered {sender.name} at {datetime.datetime.now()}"))
+  events.LackOfWater.add_event_listener(events.LackOfWater, lambda sender: git_log.log_to_repo(f"Watered {sender.name}"))
   # day scheduling
   def schedule_day(sender):
     for plant_item in plant_list:
@@ -48,16 +45,18 @@ def main():
             desired_datetime = datetime.datetime.combine(
               datetime.date.today(),
               datetime.time(hour=measurement_time.hour, minute=measurement_time.minute))
-            scheduler.add_event(events.Measurement(desired_datetime, plant_item))
+            # HACK: should be Measurement, but measuring not yet implemented
+            scheduler.add_event(events.LackOfWater(desired_datetime, plant_item))
 
   events.ScheduleDay.add_event_listener(events.ScheduleDay, schedule_day)
-  # schedule every night at 00:00
-  next_day_midnight = datetime.datetime.combine( \
-    datetime.date.today(), \
-    datetime.time(hour=0, minute=0)) + datetime.timedelta(days=1)
-  events.ScheduleDay.add_event_listener(events.ScheduleDay, lambda sender:
+  # schedule every night at 00:01
+  def schedule_scheduling(sender):
+    next_day_midnight = datetime.datetime.combine( \
+      datetime.date.today(), \
+      datetime.time(hour=0, minute=1)) + datetime.timedelta(days=1)
     scheduler.add_event(events.ScheduleDay(next_day_midnight, scheduler))
-  )
+  events.ScheduleDay.add_event_listener(events.ScheduleDay, schedule_scheduling)
+
   scheduler.add_event(events.ScheduleDay(datetime.datetime.now(), None))
 
   # main loop
