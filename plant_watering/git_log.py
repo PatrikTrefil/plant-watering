@@ -10,7 +10,6 @@ from git import Repo
 import error
 import logging
 
-
 def log_to_repo(text:str):
   try:
     with tempfile.TemporaryDirectory() as tmpdir:
@@ -26,6 +25,6 @@ def log_to_repo(text:str):
       remote = repo.remote("origin")
       remote.push()
   except Exception as excep:
-    logging.error(excep, file=sys.stderr)
+    logging.exception("Could not log to git repo")
     # HACK: should raise Error event, signalling should be an event handler
     # error.ErrorLog.signal_error()

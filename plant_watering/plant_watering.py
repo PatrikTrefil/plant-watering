@@ -11,6 +11,7 @@ import plant
 import events
 import git_log
 from config import get_config
+from systemd.journal import JournaldLogHandler
 
 def main():
   # cleanup
@@ -18,7 +19,13 @@ def main():
   signal.signal(signal.SIGINT, lambda _ : GPIO.cleanup() )
   # init
   GPIO.setmode(GPIO.BOARD)
-  logging.basicConfig(level=logging.INFO)
+  # logging
+  r = logging.getLogger("root")
+  r.setLevel(logging.DEBUG)
+  r.addHandler(logging.StreamHandler())
+  journald_handler = JournaldLogHandler()
+  logger.addHandler(journald_handler)
+
   config = get_config()
   scheduler = Scheduler()
   plant_list = plant.Plant.init_plants(config["plants_folder"])
