@@ -4,6 +4,7 @@
 import datetime
 import signal
 import time
+import logging
 from scheduler import Scheduler
 import RPi.GPIO as GPIO
 import plant
@@ -17,6 +18,7 @@ def main():
   signal.signal(signal.SIGINT, lambda _ : GPIO.cleanup() )
   # init
   GPIO.setmode(GPIO.BOARD)
+  logging.basicConfig(level=logging.INFO)
   config = get_config()
   scheduler = Scheduler()
   plant_list = plant.Plant.init_plants(config["plants_folder"])
