@@ -27,4 +27,4 @@ def log_to_repo(text:str):
   except Exception as excep:
     print(excep, file=sys.stderr)
     # HACK: should raise Error event, signalling should be an event handler
-    error.ErrorLog.signal_error()
+    # error.ErrorLog.signal_error()
