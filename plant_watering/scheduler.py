@@ -2,6 +2,7 @@
 """library to handle event scheduling"""
 
 import datetime
+import logging
 from sorted_linked_list import SortedLinkedList
 import events
 
