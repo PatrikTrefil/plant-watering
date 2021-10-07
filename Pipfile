@@ -10,6 +10,7 @@ lint = "pylint plant_watering"
 [packages]
 gitpython = "*"
 "rpi.gpio" = "*"
+systemd = "*"
 
 [dev-packages]
 pylint = "*"
