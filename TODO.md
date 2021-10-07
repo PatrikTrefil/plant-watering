@@ -6,3 +6,4 @@
 - implement measure
 - implement event handlers
 - measure every 8 hours
+- create service on raspberry

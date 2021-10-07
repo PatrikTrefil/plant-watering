@@ -8,6 +8,7 @@ import tempfile
 from config import get_config
 from git import Repo
 import error
+import logging
 
 
 def log_to_repo(text:str):
@@ -25,6 +26,6 @@ def log_to_repo(text:str):
       remote = repo.remote("origin")
       remote.push()
   except Exception as excep:
-    print(excep, file=sys.stderr)
+    logging.error(excep, file=sys.stderr)
     # HACK: should raise Error event, signalling should be an event handler
     # error.ErrorLog.signal_error()
