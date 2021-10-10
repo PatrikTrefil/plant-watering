@@ -1,5 +1,6 @@
 {
   "log_repo_url": "git@github.com:PatrikTrefil/plant-watering-log.git",
+  "ssh_key_path": "~/.ssh/id_rsa",
   "plants_folder": "./plants/",
   "pins": {
     "led": 20

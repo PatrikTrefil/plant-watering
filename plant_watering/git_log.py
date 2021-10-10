@@ -14,16 +14,19 @@ def log_to_repo(text:str):
   try:
     with tempfile.TemporaryDirectory() as tmpdir:
       config = get_config()
-      repo = Repo.clone_from(config["log_repo_url"], tmpdir)
-      curr_datetime = datetime.datetime.now()
-      new_file_name = f"{curr_datetime.date()}--{curr_datetime.hour}-{curr_datetime.minute}.txt"
-      new_file_path = os.path.join(tmpdir, new_file_name)
-      with open(new_file_path, "w") as new_file:
-        new_file.write(text)
-      repo.index.add([new_file_path])
-      repo.git.commit("-m", "automatic update")
-      remote = repo.remote("origin")
-      remote.push()
+      git_ssh_identity_file = os.path.expanduser(config["ssh_key_path"])
+      git_ssh_cmd = 'ssh -i %s' % git_ssh_identity_file
+      with Git().custom_environment(GIT_SSH_COMMAND=git_ssh_cmd)
+        repo = Repo.clone_from(config["log_repo_url"], tmpdir)
+        curr_datetime = datetime.datetime.now()
+        new_file_name = f"{curr_datetime.date()}--{curr_datetime.hour}-{curr_datetime.minute}.txt"
+        new_file_path = os.path.join(tmpdir, new_file_name)
+        with open(new_file_path, "w") as new_file:
+          new_file.write(text)
+        repo.index.add([new_file_path])
+        repo.git.commit("-m", "automatic update")
+        remote = repo.remote("origin")
+        remote.push()
   except Exception as excep:
     logging.exception("Could not log to git repo")
     # HACK: should raise Error event, signalling should be an event handler
