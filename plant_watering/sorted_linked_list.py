@@ -12,21 +12,18 @@ class SortedLinkedList:
     self.compareFunc = compareFunc
 
   def __add_node__(self, new_node):
-    if self.start_node is None:
+    prev_node = None
+    curr_node = self.start_node
+    while curr_node is not None and not self.compareFunc(new_node.value, curr_node.value):
+      prev_node = curr_node
+      curr_node = curr_node.next_item
+    # add new node between prev and curr
+    if prev_node is None:
       self.start_node = new_node
+      new_node.next_item = curr_node
     else:
-      prev_node = None
-      curr_node = self.start_node
-      while not self.compareFunc(new_node.value, curr_node.value):
-        prev_node = curr_node
-        curr_node = curr_node.next_item
-      # add new node between prev and curr
-      if prev_node is None:
-        self.start_node = new_node
-        new_node.next_item = curr_node
-      else:
-        prev_node.next_item = new_node
-        new_node.next_item = curr_node
+      prev_node.next_item = new_node
+      new_node.next_item = curr_node
 
   def add_item(self, item):
     self.__add_node__(SortedLinkedList.Node(item))
