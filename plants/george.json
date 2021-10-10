@@ -1,0 +1,10 @@
+{
+  "name": "George",
+  "pumpPin": 8,
+  "minHumidity": 50,
+  "timePlan": [
+    "10:00",
+    "12:15",
+    "18:00"
+   ]
+}
