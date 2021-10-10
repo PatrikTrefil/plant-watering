@@ -14,6 +14,8 @@ import git_log
 from config import get_config
 from systemd.journal import JournaldLogHandler
 
+DELAY_OF_BUSY_WAITING = 0.3
+
 def main():
   logging.info("Starting plant watering")
   # cleanup
@@ -68,7 +70,7 @@ def main():
   # main loop
   while True:
     while scheduler.is_empty() or not scheduler.get_next_event().is_ready():
-      time.sleep(20)
+      time.sleep(DELAY_OF_BUSY_WAITING)
     scheduler.resolve_event()
 
 
