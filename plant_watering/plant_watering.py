@@ -15,6 +15,7 @@ from config import get_config
 from systemd.journal import JournaldLogHandler
 
 def main():
+  logging.info("Starting plant watering")
   # cleanup
   signal.signal(signal.SIGTERM, lambda _ : GPIO.cleanup() )
   signal.signal(signal.SIGINT, lambda _ : GPIO.cleanup() )
@@ -72,12 +73,10 @@ def main():
 
 
 if __name__=="__main__":
-  # logging
-  r = logging.getLogger("root")
+  # logging config
+  r = logging.root
   r.setLevel(logging.DEBUG)
-  r.addHandler(logging.StreamHandler())
-  journald_handler = JournaldLogHandler()
-  r.addHandler(journald_handler)
+  r.addHandler(JournaldLogHandler())
   try:
     main()
   except Exception as e:
