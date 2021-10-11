@@ -7,6 +7,14 @@
 - make circuit diagrams
 - actually make the circuits
 
+## 2021-10-11
+
+- finished event system
+- tested on RaspberryPi
+- figured out busy waiting
+- fixed git log
+- implemented robust logging
+
 ## 2021-10-01
 
 - reworked event system (not yet tested)
