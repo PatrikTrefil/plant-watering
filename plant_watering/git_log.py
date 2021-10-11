@@ -22,8 +22,11 @@ def log_to_repo(text:str):
         curr_datetime = datetime.datetime.now()
         new_file_name = f"{curr_datetime.date()}--{curr_datetime.hour}-{curr_datetime.minute}.txt"
         new_file_path = os.path.join(tmpdir, new_file_name)
-        with open(new_file_path, "w") as new_file:
-          new_file.write(text)
+        text_to_append = text
+        if (os.path.isfile(new_file_path)):
+          text_to_append = "\n" + text_to_append
+        with open(new_file_path, "a") as new_file:
+          new_file.write(text_to_append)
         repo.index.add([new_file_path])
         repo.git.commit("-m", "automatic update")
         remote = repo.remote("origin")
