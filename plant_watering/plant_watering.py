@@ -29,21 +29,29 @@ def main():
   scheduler = Scheduler()
   plant_list = plant.Plant.init_plants(config["plants_folder"])
   # setup events
+  # HACK: don't have hardware for measuring
+  # @events.Event.register_as_listener(evenets.Measurement)
   def measure(sender):
     sender.measure()
     scheduler.add_event(events.MeasurementDone(datetime.datetime.now(), sender))
-  # HACK: don't have hardware for measuring
-  # events.Measurement.add_event_listener(events.Measurement, measure)
+  @events.Event.register_as_listener(events.MeasurementDone)
   def water_if_needed(sender):
     if sender.last_res < sender.min_humidity:
       scheduler.add_event(events.LackOfWater(datetime.datetime.now(), sender))
-  events.MeasurementDone.add_event_listener(events.MeasurementDone, water_if_needed)
-  events.MeasurementDone.add_event_listener(events.MeasurementDone, lambda sender: git_log.log_to_repo(sender.last_res))
+
+  @events.Event.register_as_listener(events.MeasurementDone)
+  def log_measurement_res_to_git(sender):
+    git_log.log_to_repo(sender.last_res)
 
   # water when needed
-  events.LackOfWater.add_event_listener(events.LackOfWater, lambda sender: sender.water())
-  events.LackOfWater.add_event_listener(events.LackOfWater, lambda sender: git_log.log_to_repo(f"Watered {sender.name}"))
-  # day scheduling
+  @events.Event.register_as_listener(events.LackOfWater)
+  def water_sender(sender):
+    sender.water()
+  @events.Event.register_as_listener(events.LackOfWater)
+  def log_watering(sender):
+    git_log.log_to_repo(f"Watered {sender.name}")
+
+  @events.Event.register_as_listener(events.ScheduleDay)
   def schedule_day(sender):
     for plant_item in plant_list:
       # don't schedule for the past
@@ -56,14 +64,13 @@ def main():
             # HACK: should be Measurement, but measuring not yet implemented
             scheduler.add_event(events.LackOfWater(desired_datetime, plant_item))
 
-  events.ScheduleDay.add_event_listener(events.ScheduleDay, schedule_day)
   # schedule every night at 00:01
+  @events.Event.register_as_listener(events.ScheduleDay)
   def schedule_scheduling(sender):
     next_day_midnight = datetime.datetime.combine( \
       datetime.date.today(), \
       datetime.time(hour=0, minute=1)) + datetime.timedelta(days=1)
     scheduler.add_event(events.ScheduleDay(next_day_midnight, scheduler))
-  events.ScheduleDay.add_event_listener(events.ScheduleDay, schedule_scheduling)
 
   scheduler.add_event(events.ScheduleDay(datetime.datetime.now(), None))
 

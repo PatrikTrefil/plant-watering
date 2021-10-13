@@ -32,6 +32,15 @@ class Event:
   def get_event_listener(event_class):
     return Event.__event_listeners__[event_class]
 
+  @staticmethod
+  def register_as_listener(event_class):
+    """to be used as decorator"""
+    def decorator(func):
+      Event.add_event_listener(event_class, func)
+      return func
+    return decorator
+
+
 # scheduler plans these on daily basis according to configuration
 class Measurement(Event):
   pass
