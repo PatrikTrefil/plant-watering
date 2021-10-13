@@ -12,24 +12,24 @@ def init_event_listeners(config, scheduler, plant_list):
     sender.measure()
     scheduler.add_event(events.MeasurementDone(datetime.datetime.now(), sender))
 
-  @events.Event.register_as_listener(events.MeasurementDone)
+  @events.MeasurementDone.register_as_listener
   def water_if_needed(sender):
     if sender.last_res < sender.min_humidity:
       scheduler.add_event(events.LackOfWater(datetime.datetime.now(), sender))
 
-  @events.Event.register_as_listener(events.MeasurementDone)
+  @events.MeasurementDone.register_as_listener
   def log_measurement_res_to_git(sender):
     git_log.log_to_repo(sender.last_res)
 
-  @events.Event.register_as_listener(events.LackOfWater)
+  @events.LackOfWater.register_as_listener
   def water_sender(sender):
     sender.water()
 
-  @events.Event.register_as_listener(events.LackOfWater)
+  @events.LackOfWater.register_as_listener
   def log_watering(sender):
     git_log.log_to_repo(f"Watered {sender.name}")
 
-  @events.Event.register_as_listener(events.ScheduleDay)
+  @events.ScheduleDay.register_as_listener
   def schedule_day(sender):
     for plant_item in plant_list:
       # don't schedule for the past
@@ -43,7 +43,7 @@ def init_event_listeners(config, scheduler, plant_list):
           scheduler.add_event(events.LackOfWater(desired_datetime, plant_item))
 
   # schedule every night at 00:01
-  @events.Event.register_as_listener(events.ScheduleDay)
+  @events.ScheduleDay.register_as_listener
   def schedule_scheduling(sender):
     next_day_midnight = datetime.datetime.combine( \
       datetime.date.today(), \
