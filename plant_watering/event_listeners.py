@@ -1,4 +1,9 @@
 #!/bin/env python3
+# pylint: disable=unused-variable, unused-argument
+
+import datetime
+import events
+import git_log
 
 def init_event_listeners(config, scheduler, plant_list):
   # HACK: don't have hardware for measuring
@@ -31,11 +36,11 @@ def init_event_listeners(config, scheduler, plant_list):
       curr_datetime = datetime.datetime.now()
       for measurement_time in plant_item.time_plan:
         if measurement_time >= curr_datetime.time():
-            desired_datetime = datetime.datetime.combine(
-              datetime.date.today(),
-              datetime.time(hour=measurement_time.hour, minute=measurement_time.minute))
-            # HACK: should be Measurement, but measuring not yet implemented
-            scheduler.add_event(events.LackOfWater(desired_datetime, plant_item))
+          desired_datetime = datetime.datetime.combine(
+            datetime.date.today(),
+            datetime.time(hour=measurement_time.hour, minute=measurement_time.minute))
+          # HACK: should be Measurement, but measuring not yet implemented
+          scheduler.add_event(events.LackOfWater(desired_datetime, plant_item))
 
   # schedule every night at 00:01
   @events.Event.register_as_listener(events.ScheduleDay)
