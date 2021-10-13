@@ -3,10 +3,10 @@
 
 import os
 import datetime
+import logging
 import json
 import git_log
 from pump import Pump
-import logging
 
 class Plant:
   @staticmethod
@@ -20,9 +20,13 @@ class Plant:
       with open(plant_file_path, "r") as plant_file:
         plant_configs += [json.load(plant_file)]
 
-    logging.info(f"Loaded plant configs:\n{plant_configs}")
+    logging.info("Loaded plant configs:\n%s", plant_configs)
     plants = [ \
-      Plant(plantConfig["name"], Pump(plantConfig["pumpPin"]), plantConfig["minHumidity"], plantConfig["timePlan"]) \
+      Plant(
+        plantConfig["name"],
+        Pump(plantConfig["pumpPin"]),
+        plantConfig["minHumidity"],
+        plantConfig["timePlan"]) \
       for plantConfig in plant_configs]
     return plants
 
@@ -33,7 +37,9 @@ class Plant:
     self.interval = datetime.timedelta(days=1)
     self.last_res = None
     self.last_measure_datetime = None
-    self.time_plan = [datetime.datetime.strptime(time_unit, "%H:%M").time() for time_unit in time_plan]
+    self.time_plan = [ \
+      datetime.datetime.strptime(time_unit, "%H:%M").time() \
+      for time_unit in time_plan]
 
   def __str__(self):
     return f"plant {self.name}"
@@ -43,11 +49,11 @@ class Plant:
     raise Exception("Not implemented")
     curr_datetime = datetime.datetime.now()
     git_log.log_to_repo(f"{curr_datetime} - {res} %")
-    logging.info(f"Measurement: {res}")
+    logging.info("Measurement: %s", res)
     self.last_measure_datetime = curr_datetime
     self.last_res = res
     return res
 
   def water(self):
-    logging.info(f"Watering plant {self.name}")
+    logging.info("Watering plant %s", self.name)
     self.pump.pump(2)

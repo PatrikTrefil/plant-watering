@@ -18,7 +18,8 @@ class Event:
     return curr_datetime >= self.due_datetime
 
   def __str__(self):
-    return f"{type(self)} sent by {self.sender}, planned for {self.due_datetime.strftime('%y-%m-%d %H:%M')}"
+    fmted_time = self.due_datetime.strftime('%y-%m-%d %H:%M')
+    return f"{type(self)} sent by {self.sender}, planned for {fmted_time}"
 
   __event_listeners__ = dict() # expects functions that have one parameter sender
 
@@ -41,19 +42,22 @@ class Event:
     return decorator
 
 
-# scheduler plans these on daily basis according to configuration
 class Measurement(Event):
-  pass
+  """scheduler plans these on daily basis according to the configuration"""
 
 class MeasurementDone(Event):
   """
   This event should fire right after finishing humidity measuerments.
   The sender object is expected to have the result saved in sender.last_res
   """
-  pass
 
 class LackOfWater(Event):
-  pass
+  """
+  if we measure soil humidity under configured threshold, this event
+  fires and we water the plant
+  """
 
 class ScheduleDay(Event):
-  pass
+  """
+  this triggers daily planning and plans itself for the next day
+  """

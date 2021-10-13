@@ -5,12 +5,10 @@ import datetime
 import signal
 import time
 import logging
-import sys
 from scheduler import Scheduler
 import RPi.GPIO as GPIO
 import plant
 import events
-import git_log
 import event_listeners
 from config import get_config
 from systemd.journal import JournaldLogHandler

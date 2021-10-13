@@ -2,7 +2,6 @@
 """Provides access to program configuration"""
 
 import json
-import datetime
 
 def get_config():
   """returns config object"""
