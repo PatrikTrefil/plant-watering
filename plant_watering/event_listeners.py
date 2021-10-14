@@ -6,7 +6,7 @@ import events
 import git_log
 
 def init_event_listeners(config, scheduler, plant_list):
-  @events.Event.register_as_listener(evenets.Measurement)
+  @events.Event.register_as_listener(events.Measurement)
   def measure(sender):
     sender.measure()
     scheduler.add_event(events.MeasurementDone(datetime.datetime.now(), sender))
