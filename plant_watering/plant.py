@@ -54,7 +54,7 @@ class Plant:
   def measure(self):
     """returns voltage measured on pin"""
     raw_res = self.soil_humidity_sensor.value
-    res = (raw_res / 65535) * pcf_in_0.reference_voltage
+    res = (raw_res / 65535) * self.soil_humidity_sensor.reference_voltage
     curr_datetime = datetime.datetime.now()
     logging.info("Measurement: %s", res)
     self.last_measure_datetime = curr_datetime
