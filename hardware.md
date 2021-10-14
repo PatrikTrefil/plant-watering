@@ -11,7 +11,7 @@
 ## Soil humidity
 
 Soil humidity sensor gives us an analog signal, which is convert to digital and
-then received by the Raspberry Pi using the SPI protocol.
+then received by the Raspberry Pi using the I2C protocol.
 
 - [Raspberry pi SPI wiring](https://pinout.xyz/pinout/spi#)
 - [Raspberry I2C wiring](https://pinout.xyz/pinout/i2c#)
