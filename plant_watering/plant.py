@@ -4,9 +4,13 @@
 import os
 import datetime
 import logging
+import board
 import json
 import git_log
 from pump import Pump
+import adafruit_pcf8591.pcf8591 as PCF
+from adafruit_pcf8591.analog_in import AnalogIn
+from adafruit_pcf8591.analog_out import AnalogOut
 
 class Plant:
   @staticmethod
@@ -37,6 +41,9 @@ class Plant:
     self.interval = datetime.timedelta(days=1)
     self.last_res = None
     self.last_measure_datetime = None
+    i2c = board.I2C()
+    pcf = PCF.PCF8591(i2c)
+    self.soil_humidity_sensor = AnalogIn(pcf, PCF.A0)
     self.time_plan = [ \
       datetime.datetime.strptime(time_unit, "%H:%M").time() \
       for time_unit in time_plan]
@@ -45,10 +52,10 @@ class Plant:
     return f"plant {self.name}"
 
   def measure(self):
-    res = -1
-    raise Exception("Not implemented")
+    """returns voltage measured on pin"""
+    raw_res = soil_humidity_sensor.value
+    res = (raw_value / 65535) * pcf_in_0.reference_voltage
     curr_datetime = datetime.datetime.now()
-    git_log.log_to_repo(f"{curr_datetime} - {res} %")
     logging.info("Measurement: %s", res)
     self.last_measure_datetime = curr_datetime
     self.last_res = res
