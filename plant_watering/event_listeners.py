@@ -6,8 +6,7 @@ import events
 import git_log
 
 def init_event_listeners(config, scheduler, plant_list):
-  # HACK: don't have hardware for measuring
-  # @events.Event.register_as_listener(evenets.Measurement)
+  @events.Event.register_as_listener(evenets.Measurement)
   def measure(sender):
     sender.measure()
     scheduler.add_event(events.MeasurementDone(datetime.datetime.now(), sender))
@@ -39,8 +38,7 @@ def init_event_listeners(config, scheduler, plant_list):
           desired_datetime = datetime.datetime.combine(
             datetime.date.today(),
             datetime.time(hour=measurement_time.hour, minute=measurement_time.minute))
-          # HACK: should be Measurement, but measuring not yet implemented
-          scheduler.add_event(events.LackOfWater(desired_datetime, plant_item))
+          scheduler.add_event(events.Measurement(desired_datetime, plant_item))
 
   # schedule every night at 00:01
   @events.ScheduleDay.register_as_listener
