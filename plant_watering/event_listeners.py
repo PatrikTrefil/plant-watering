@@ -18,7 +18,7 @@ def init_event_listeners(config, scheduler, plant_list):
 
   @events.MeasurementDone.register_as_listener
   def log_measurement_res_to_git(sender):
-    git_log.log_to_repo(str(sender.last_res))
+    git_log.log_to_repo(f"Measured {sender.name}: {sender.last_res}"))
 
   @events.LackOfWater.register_as_listener
   def water_sender(sender):

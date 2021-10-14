@@ -56,7 +56,7 @@ class Plant:
     raw_res = self.soil_humidity_sensor.value
     res = (raw_res / 65535) * self.soil_humidity_sensor.reference_voltage
     curr_datetime = datetime.datetime.now()
-    logging.info("Measurement: %s", res)
+    logging.info("Measured %s: %s", self.name, res)
     self.last_measure_datetime = curr_datetime
     self.last_res = res
     return res
