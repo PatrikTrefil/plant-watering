@@ -11,9 +11,6 @@ from events import Event
 from config import get_config
 
 
-def test_routine():
-  print("provedeno")
-
 def main():
   # cleanup
   signal.signal(signal.SIGTERM, lambda _ : GPIO.cleanup() )
