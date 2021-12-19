@@ -1,3 +1,5 @@
+![PyLint](https://github.com/PatrikTrefil/plant-watering/actions/workflows/pylint.yml/badge.svg)
+
 # Plant Watering for Raspberry Pi
 
 This is a Raspberry Pi project that waters plants
