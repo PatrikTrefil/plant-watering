@@ -2,17 +2,37 @@
 """library to handle event scheduling"""
 
 import datetime
+import logging
 from sorted_linked_list import SortedLinkedList
+import events
 
 class Scheduler:
   """Simple scheduler. No guarantee of execution in time."""
+  # Singleton pattern
+  __instance = None
+
+  @staticmethod
+  def get_instance():
+    if Scheduler.__instance is None:
+      Scheduler.__instance = Scheduler();
+    return Scheduler.__instance;
+
   def __init__(self):
-    self.event_calendar = SortedLinkedList(None)
+    self.event_calendar = SortedLinkedList(None, lambda x, y: x.due_datetime < y.due_datetime)
+    if Scheduler.__instance is not None:
+      raise Exception("This is a singleton!");
+    Scheduler.__instance = self
 
   def add_event(self, event):
-    assert event.due_datetime >= datetime.datetime.now()
-    print(f"Event added: {event}")
+    self.log("event added", event)
     self.event_calendar.add_item(event)
+
+  def log(self, descr, event):
+    logging.info("|{:<16}|{:<100}|{:<14}|{:<14}|".format(
+      descr,
+      str(event),
+      event.due_datetime.strftime("%y-%m-%d %H:%M"),
+      datetime.datetime.now().strftime("%y-%m-%d %H:%M")))
 
   def remove_next_event(self):
     removed_event = self.get_next_event()
@@ -31,5 +51,10 @@ class Scheduler:
 
   def resolve_event(self):
     curr_event = self.remove_next_event()
-    print(f"Event resolved: {curr_event}")
-    curr_event.routine()
+    self.log("resolving event", curr_event)
+    for event_listener in events.Event.get_event_listener(type(curr_event)):
+      event_listener(curr_event.sender)
+    self.log("event resolved", curr_event)
+
+  def __str__(self):
+    return "scheduler"

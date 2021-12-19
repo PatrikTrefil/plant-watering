@@ -1,0 +1,11 @@
+[Unit]
+Description=Plant watering system
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi/Code/plant-watering/
+ExecStart=/home/pi/.local/bin/pipenv run start
+
+[Install]
+WantedBy=multi-user.target

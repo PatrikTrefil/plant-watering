@@ -4,41 +4,46 @@
 import datetime
 import signal
 import time
+import logging
 from scheduler import Scheduler
 import RPi.GPIO as GPIO
 import plant
-from events import Event
+import events
+import event_listeners
 from config import get_config
+from systemd.journal import JournaldLogHandler
 
+DELAY_OF_BUSY_WAITING = 0.3
 
 def main():
+  logging.info("Starting plant watering")
   # cleanup
   signal.signal(signal.SIGTERM, lambda _ : GPIO.cleanup() )
   signal.signal(signal.SIGINT, lambda _ : GPIO.cleanup() )
   # init
   GPIO.setmode(GPIO.BOARD)
+
   config = get_config()
-  scheduler = Scheduler()
   plant_list = plant.Plant.init_plants(config["plants_folder"])
-  # schedule for next 10:00 AM
-  todays_watering_time = \
-    datetime.datetime.today() + datetime.timedelta(hours=config["time_of_watering"])
+  scheduler = Scheduler.get_instance()
 
-  if datetime.datetime.now() > todays_watering_time:
-    planned_time = \
-      datetime.datetime.today() + datetime.timedelta(days=1, hours=config.time_of_watering)
-  else:
-    planned_time = todays_watering_time
-
-  for plant_item in plant_list:
-    scheduler.add_event(Event(planned_time, plant_item.care))
+  event_listeners.init_event_listeners(config, plant_list)
+  scheduler.add_event(events.ScheduleDay(datetime.datetime.now(), None))
 
   # main loop
   while True:
     while scheduler.is_empty() or not scheduler.get_next_event().is_ready():
-      time.sleep(20)
+      time.sleep(DELAY_OF_BUSY_WAITING)
     scheduler.resolve_event()
 
 
 if __name__=="__main__":
-  main()
+  # logging config
+  r = logging.root
+  r.setLevel(logging.DEBUG)
+  r.addHandler(JournaldLogHandler())
+  try:
+    main()
+  except Exception as e:
+    logging.exception("App crashed")
+    GPIO.cleanup()
