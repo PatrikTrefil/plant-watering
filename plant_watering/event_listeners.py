@@ -4,17 +4,18 @@
 import datetime
 import events
 import git_log
+from scheduler import Scheduler
 
-def init_event_listeners(config, scheduler, plant_list):
+def init_event_listeners(config, plant_list):
   @events.Measurement.register_as_listener
   def measure(sender):
     sender.measure()
-    scheduler.add_event(events.MeasurementDone(datetime.datetime.now(), sender))
+    Scheduler.get_instance().add_event(events.MeasurementDone(datetime.datetime.now(), sender))
 
   @events.MeasurementDone.register_as_listener
   def water_if_needed(sender):
     if sender.last_res < sender.min_humidity:
-      scheduler.add_event(events.LackOfWater(datetime.datetime.now(), sender))
+      Scheduler.get_instance().add_event(events.LackOfWater(datetime.datetime.now(), sender))
 
   @events.MeasurementDone.register_as_listener
   def log_measurement_res_to_git(sender):
@@ -38,7 +39,7 @@ def init_event_listeners(config, scheduler, plant_list):
           desired_datetime = datetime.datetime.combine(
             datetime.date.today(),
             datetime.time(hour=measurement_time.hour, minute=measurement_time.minute))
-          scheduler.add_event(events.Measurement(desired_datetime, plant_item))
+          Scheduler.get_instance().add_event(events.Measurement(desired_datetime, plant_item))
 
   # schedule every night at 00:01
   @events.ScheduleDay.register_as_listener
@@ -46,4 +47,4 @@ def init_event_listeners(config, scheduler, plant_list):
     next_day_midnight = datetime.datetime.combine( \
       datetime.date.today(), \
       datetime.time(hour=0, minute=1)) + datetime.timedelta(days=1)
-    scheduler.add_event(events.ScheduleDay(next_day_midnight, scheduler))
+    Scheduler.get_instance().add_event(events.ScheduleDay(next_day_midnight, scheduler))

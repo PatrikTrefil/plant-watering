@@ -8,8 +8,20 @@ import events
 
 class Scheduler:
   """Simple scheduler. No guarantee of execution in time."""
+  # Singleton pattern
+  __instance = None
+
+  @staticmethod
+  def get_instance():
+    if Scheduler.__instance is None:
+      Scheduler.__instance = Scheduler();
+    return Scheduler.__instance;
+
   def __init__(self):
     self.event_calendar = SortedLinkedList(None, lambda x, y: x.due_datetime < y.due_datetime)
+    if Scheduler.__instance is not None:
+      raise Exception("This is a singleton!");
+    Scheduler.__instance = self
 
   def add_event(self, event):
     self.log("event added", event)

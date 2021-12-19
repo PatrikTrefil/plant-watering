@@ -23,12 +23,11 @@ def main():
   # init
   GPIO.setmode(GPIO.BOARD)
 
-
   config = get_config()
-  scheduler = Scheduler()
   plant_list = plant.Plant.init_plants(config["plants_folder"])
+  scheduler = Scheduler.get_instance()
 
-  event_listeners.init_event_listeners(config, scheduler, plant_list)
+  event_listeners.init_event_listeners(config, plant_list)
   scheduler.add_event(events.ScheduleDay(datetime.datetime.now(), None))
 
   # main loop
