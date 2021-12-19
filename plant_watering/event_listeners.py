@@ -47,4 +47,10 @@ def init_event_listeners(config, plant_list):
     next_day_midnight = datetime.datetime.combine( \
       datetime.date.today(), \
       datetime.time(hour=0, minute=1)) + datetime.timedelta(days=1)
-    Scheduler.get_instance().add_event(events.ScheduleDay(next_day_midnight, scheduler))
+    Scheduler.get_instance() \
+      .add_event( \
+        events.ScheduleDay( \
+          next_day_midnight, \
+          Scheduler.get_instance() \
+        ) \
+      )

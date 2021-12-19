@@ -1,6 +1,6 @@
 #!/bin/env python3
 
-import RPi.GPIO as GPIO
+from RPi import GPIO
 
 class Relay:
   def __init__(self, pin_num):

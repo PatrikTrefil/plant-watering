@@ -21,7 +21,7 @@ class Event:
     fmted_time = self.due_datetime.strftime('%y-%m-%d %H:%M')
     return f"{type(self)} sent by {self.sender}, planned for {fmted_time}"
 
-  __event_listeners__ = dict() # expects functions that have one parameter sender
+  __event_listeners__ = {} # expects functions that have one parameter sender
 
   @staticmethod
   def add_event_listener(event_class, func):
@@ -34,9 +34,9 @@ class Event:
     return Event.__event_listeners__[event_class]
 
   @classmethod
-  def register_as_listener(event_class, func):
+  def register_as_listener(cls, func):
     """to be used as decorator"""
-    Event.add_event_listener(event_class, func)
+    Event.add_event_listener(cls, func)
     return func
 
 
@@ -58,4 +58,11 @@ class LackOfWater(Event):
 class ScheduleDay(Event):
   """
   this triggers daily planning and plans itself for the next day
+  """
+
+class Error(Event):
+  """
+  if any non-fatal error occurs, this event should be raised.
+  it is expected that event listeners will be set up for this event
+  to notify the user about the failure
   """

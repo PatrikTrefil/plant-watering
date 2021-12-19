@@ -4,14 +4,13 @@
 import os
 import datetime
 import logging
-import board
 import json
-import git_log
+import board
 from pump import Pump
 import adafruit_pcf8591.pcf8591 as PCF
 from adafruit_pcf8591.analog_in import AnalogIn
-from adafruit_pcf8591.analog_out import AnalogOut
 
+# pylint: disable=R0902
 class Plant:
   @staticmethod
   def init_plants(plants_folder):
@@ -21,7 +20,7 @@ class Plant:
       for file_name in os.listdir(plants_folder)]
     plant_configs = []
     for plant_file_path in plant_files_paths:
-      with open(plant_file_path, "r") as plant_file:
+      with open(plant_file_path, "r", encoding="utf-8") as plant_file:
         plant_configs += [json.load(plant_file)]
 
     logging.info("Loaded plant configs:\n%s", plant_configs)

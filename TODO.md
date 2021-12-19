@@ -1,8 +1,4 @@
 # To-Do
 
-- implement LED
-- make circuit diagram
-- make sure pump works
-- implement measure
-- implement reading socket
-- resolveEvent as Event method
+- notify user about failures (add event listener to Error event)
+- led flash should not be blocking

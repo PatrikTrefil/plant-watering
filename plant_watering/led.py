@@ -2,7 +2,7 @@
 """Module for controlling LED"""
 
 import time
-import RPi.GPIO as GPIO
+from RPi import GPIO
 
 class Led:
   is_on = False
@@ -18,7 +18,6 @@ class Led:
 
   def flash(self, count, interval=2):
     """flash $count number of times with $interval second intervals"""
-    # TODO: reimplement as non-blocking using events
     for _ in range(count):
       self.turn_on_off(True)
       time.sleep(interval)

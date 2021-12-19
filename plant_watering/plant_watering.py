@@ -6,7 +6,7 @@ import signal
 import time
 import logging
 from scheduler import Scheduler
-import RPi.GPIO as GPIO
+from RPi import GPIO
 import plant
 import events
 import event_listeners
@@ -34,7 +34,7 @@ def main():
   while True:
     while scheduler.is_empty() or not scheduler.get_next_event().is_ready():
       time.sleep(DELAY_OF_BUSY_WAITING)
-    scheduler.resolve_event()
+    scheduler.resolve_next_event()
 
 
 if __name__=="__main__":

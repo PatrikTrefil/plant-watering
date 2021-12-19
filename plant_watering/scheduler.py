@@ -14,20 +14,22 @@ class Scheduler:
   @staticmethod
   def get_instance():
     if Scheduler.__instance is None:
-      Scheduler.__instance = Scheduler();
-    return Scheduler.__instance;
+      Scheduler.__instance = Scheduler()
+    return Scheduler.__instance
 
   def __init__(self):
     self.event_calendar = SortedLinkedList(None, lambda x, y: x.due_datetime < y.due_datetime)
     if Scheduler.__instance is not None:
-      raise Exception("This is a singleton!");
+      raise Exception("This is a singleton!")
     Scheduler.__instance = self
 
   def add_event(self, event):
     self.log("event added", event)
     self.event_calendar.add_item(event)
 
+  # pylint: disable=R0201
   def log(self, descr, event):
+    # pylint: disable=C0209
     logging.info("|{:<16}|{:<100}|{:<14}|{:<14}|".format(
       descr,
       str(event),
@@ -49,7 +51,7 @@ class Scheduler:
   def is_empty(self):
     return self.event_calendar.start_node is None
 
-  def resolve_event(self):
+  def resolve_next_event(self):
     curr_event = self.remove_next_event()
     self.log("resolving event", curr_event)
     for event_listener in events.Event.get_event_listener(type(curr_event)):
