@@ -29,7 +29,8 @@ Configuration can be found in `/config.json`.
 - `log_repo_url` expects a repository address (for SSH connection)
 - `ssh_key_path` expects a path to a SSH key, that can be used to connect to the specified repository
 - `plants_folder` expects a path to folder that contains configuration files for individual plants
-- `pins` expects an object describing the wiring
+- `pins` expects an object describing the wiring (see example configuration)
+- `socket` expects an object describing the host and port (see example configuration)
 
 Plant configuration (JSON format):
 
@@ -40,3 +41,13 @@ Plant configuration (JSON format):
 
 Install the `plant_watering.service` on your Raspberry Pi and start the service.
 Make sure to set the correct WorkingDir and ExecStart.
+
+### Usage
+
+To start the plant watering system:
+
+`pipenv run start`
+
+To connect with a client:
+
+`pipenv run client`

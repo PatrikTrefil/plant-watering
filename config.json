@@ -4,5 +4,9 @@
   "plants_folder": "./plants/",
   "pins": {
     "led": 20
+  },
+  "socket": {
+    "host": "127.0.0.1",
+    "port": "65432"
   }
 }

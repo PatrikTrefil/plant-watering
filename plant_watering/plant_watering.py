@@ -3,9 +3,12 @@
 
 import datetime
 import signal
+import threading
 import time
 import logging
+import threading
 from scheduler import Scheduler
+from window import window
 from RPi import GPIO
 import plant
 import events
@@ -24,6 +27,10 @@ def main():
   GPIO.setmode(GPIO.BOARD)
 
   config = get_config()
+
+  windowThread = threading.Thread(target=window, args=(config.socket.host, config.socket.port), daemon=True)
+  windowThread.start()
+
   plant_list = plant.Plant.init_plants(config["plants_folder"])
   scheduler = Scheduler.get_instance()
 

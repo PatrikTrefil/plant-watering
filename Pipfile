@@ -5,6 +5,7 @@ name = "pypi"
 
 [scripts]
 start = "python3 ./plant_watering/plant_watering.py"
+client = "python3 ./plant_watering_client/plant_watering_client.py"
 lint = "pylint plant_watering"
 
 [packages]
