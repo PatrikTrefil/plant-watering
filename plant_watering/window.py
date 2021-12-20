@@ -3,7 +3,6 @@
 import socket
 import logging
 import json
-from config import get_config
 from scheduler import Scheduler
 
 
